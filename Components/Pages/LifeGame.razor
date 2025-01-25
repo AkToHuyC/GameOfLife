@@ -1,0 +1,143 @@
+﻿@page "/LifeGame"
+@rendermode InteractiveServer
+@using System.Timers
+
+<div class="gameContainer">
+    <div class="mainInterface">
+        <div class="buttonGroup">
+            <button @onclick="StartAnim" class="interfaceBtn">Start</button>
+            <button @onclick="StopAnim" class="interfaceBtn">Stop</button>
+            <button @onclick="ResetToDefault" class="interfaceBtn">Reset</button>
+            <button @onclick="NextStep" class="interfaceBtn">Next Step</button>
+        </div>
+        <input type="range" min="1" max="255" step="1" @bind="GenerationsPerSecond" class="interfaceRange">
+        <p class="interfaceTxt">Поколений в секунду: @GenerationsPerSecond</p>
+        <p class="interfaceTxt">Поколение: @GenerationNumber</p>
+    </div>
+    <div class="mainBox">
+        @for (int row = 0; row < GridHeight; row++)
+        {
+            var localeRow = row;
+            @for (int col = 0; col < GridWidth; col++)
+            {
+                var localeCol = col;
+                <div class="cellBox @(Cells[localeRow, localeCol] ? "aliveCell" : "deathCell")"
+                     @onclick="@(() => ToggleCell(localeRow, localeCol))">
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private int GridWidth = 16;
+    private int GridHeight = 16;
+
+    private bool[,] Cells;
+    private int GenerationNumber = 0;
+    private int GenerationsPerSecond = 128;
+    private bool IsRunning = false;
+
+    private readonly (int, int)[] NeighborOffsets = new (int, int)[]
+    {
+        (-1, -1), (-1, 0), (-1, 1),
+        (0, -1),          (0, 1),
+        (1, -1), (1, 0), (1, 1)
+    };
+
+    protected override void OnInitialized()
+    {
+        ResetToDefault();
+    }
+
+    private void ToggleCell(int row, int col)
+    {
+        if (IsInBounds(row, col))
+        {
+            Cells[row, col] = !Cells[row, col];
+            StateHasChanged();
+        }
+    }
+
+    private void ResetToDefault()
+    {
+        StopAnim();
+        Cells = new bool[GridHeight, GridWidth];
+        GenerationNumber = 0;
+        StateHasChanged();
+    }
+
+    private async Task StartAnim()
+    {
+        if (IsRunning) return;
+
+        IsRunning = true;
+
+        while (IsRunning)
+        {
+            UpdateFrame();
+            await Task.Delay(Math.Max(1000 / GenerationsPerSecond, 16));
+        }
+    }
+
+    private void StopAnim()
+    {
+        IsRunning = false;
+    }
+
+    private void UpdateFrame()
+    {
+        var newCells = new bool[GridHeight, GridWidth];
+
+        for (int row = 0; row < GridHeight; row++)
+        {
+            for (int col = 0; col < GridWidth; col++)
+            {
+                int aliveNeighbors = CountAliveNeighbors(row, col);
+                newCells[row, col] = Cells[row, col]
+                    ? aliveNeighbors == 2 || aliveNeighbors == 3
+                    : aliveNeighbors == 3;
+            }
+        }
+
+        Cells = newCells;
+        GenerationNumber++;
+        StateHasChanged();
+    }
+
+    private void NextStep()
+    {
+        UpdateFrame();
+    }
+
+    private int CountAliveNeighbors(int row, int col)
+    {
+        int count = 0;
+
+        foreach (var (dy, dx) in NeighborOffsets)
+        {
+            int neighborRow = row + dy;
+            int neighborCol = col + dx;
+
+            if (IsInBounds(neighborRow, neighborCol) && Cells[neighborRow, neighborCol])
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private bool IsInBounds(int row, int col)
+    {
+        return row >= 0 && row < GridHeight && col >= 0 && col < GridWidth;
+    }
+
+    // TODO
+    private void SetGridSize(int width, int height)
+    {
+        GridWidth = width;
+        GridHeight = height;
+        ResetToDefault();
+    }
+}

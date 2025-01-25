@@ -1,0 +1,211 @@
+﻿/* Общий стиль для всей страницы */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Родительский контейнер */
+.gameContainer {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    flex-wrap: wrap; /* Адаптивность для меньших экранов */
+}
+
+/* Игровое меню */
+.mainInterface {
+    flex-shrink: 0;
+    background-color: #e8e8e8;
+    width: 25%;
+    min-width: 180px;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Группа кнопок */
+.buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Кнопки */
+.interfaceBtn {
+    flex: 1 1 calc(50% - 10px);
+    max-width: 120px;
+    padding: 8px 12px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .interfaceBtn:hover {
+        background-color: #45a049;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .interfaceBtn:active {
+        background-color: #388e3c;
+    }
+
+/* Ползунок */
+.interfaceRange {
+    width: 100%;
+    margin: 10px 0;
+    display: block;
+    box-sizing: border-box;
+    -webkit-appearance: none; /* Убираем стиль браузера */
+    height: 6px;
+    background: #d3d3d3;
+    border-radius: 5px;
+    outline: none;
+}
+
+    .interfaceRange::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #4caf50;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #fff;
+    }
+
+    .interfaceRange::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #4caf50;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #fff;
+    }
+
+/* Текст интерфейса */
+.interfaceTxt {
+    font-size: 14px;
+    text-align: center;
+    color: #555;
+}
+
+/* Сетка игры */
+.mainBox {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    aspect-ratio: 1 / 1;
+    flex-grow: 1;
+    max-width: 600px;
+    margin: auto;
+    border: 3px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ячейки */
+.cellBox {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    transition: background-color 0.2s ease;
+}
+
+    .cellBox:hover {
+        background-color: #ccc;
+        cursor: pointer;
+    }
+
+.deathCell {
+    background-color: #ffffff;
+}
+
+.aliveCell {
+    background-color: #4caf50;
+}
+
+/* Адаптивность для маленьких экранов */
+@media (max-width: 768px) {
+    .gameContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .mainInterface {
+        width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .mainBox {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    .interfaceBtn {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .interfaceTxt {
+        font-size: 12px;
+    }
+}
+
+/* Темная тема (опционально через класс) */
+body.dark-theme {
+    background-color: #2e2e2e;
+    color: #eee;
+}
+
+    body.dark-theme .mainInterface {
+        background-color: #444;
+        color: #eee;
+    }
+
+    body.dark-theme .interfaceBtn {
+        background-color: #555;
+        color: #ddd;
+    }
+
+        body.dark-theme .interfaceBtn:hover {
+            background-color: #666;
+        }
+
+    body.dark-theme .mainBox {
+        border-color: #666;
+    }
+
+    body.dark-theme .cellBox {
+        border-color: #555;
+    }
+
+    body.dark-theme .aliveCell {
+        background-color: #81c784;
+    }

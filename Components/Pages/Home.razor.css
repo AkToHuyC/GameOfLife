@@ -1,0 +1,79 @@
+﻿/* Главный контейнер */
+.homeContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+    /* Заголовок */
+    .homeContainer h1 {
+        text-align: center;
+        color: #4caf50;
+        margin-bottom: 20px;
+    }
+
+/* Введение */
+.introText {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Раздел с правилами */
+.rulesSection h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.rulesSection ol {
+    padding-left: 20px;
+    list-style: decimal;
+}
+
+.rulesSection li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Примеры */
+.examplesSection h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.examplesSection ul {
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.examplesSection li {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+/* Призыв к действию */
+.playPrompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.playButton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4caf50;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+    .playButton:hover {
+        background-color: #45a049;
+    }
